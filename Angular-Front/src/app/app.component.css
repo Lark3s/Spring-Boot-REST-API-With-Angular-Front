@@ -1,0 +1,28 @@
+
+.footer {
+  position: relative;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 20px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  /* height: 50px; */
+  /* background-color: red; */
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* .newsletter {
+    flex-direction: row;
+}
+
+.contact {
+    flex-direction: row;
+} */
+
+.container {
+  min-height: calc(100vh - (78px + 56px));
+}

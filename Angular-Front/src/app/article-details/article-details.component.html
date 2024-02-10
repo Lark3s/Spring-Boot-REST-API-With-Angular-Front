@@ -1,0 +1,103 @@
+<div *ngIf="viewMode; else editable">
+    <div *ngIf="currentArticle.id">
+      <h4>Article</h4>
+      <div>
+        <label><strong>Title:</strong></label> {{ currentArticle.title }}
+      </div>
+      <div>
+        <label><strong>Description:</strong></label>
+        {{ currentArticle.description }}
+      </div>
+      <div>
+        <label><strong>Status:</strong></label>
+        {{ currentArticle.published ? "Published" : "Pending" }}
+      </div>
+      <a
+        class="badge badge-warning"
+        routerLink="/articles/{{ currentArticle.id }}"
+        *ngIf="isModOrAdmin"
+      >
+        Edit
+      </a>
+      <div>
+        <p><strong>COMMENTS</strong></p>
+      </div>
+      <div *ngFor="let com of comments">
+        <p><strong>Username: </strong>{{com.username}}</p>
+        <p><strong>Text: </strong>{{com.text}}</p>
+        <button (click)="deleteComment(com.id)" *ngIf="isModOrAdmin" class="btn btn-danger">Delete</button>
+      </div>
+      <div *ngIf="isLoggedIn">
+        <label for="text"><strong>Leave a comment: </strong></label>&nbsp;
+        <input required [(ngModel)]="comment.text" name="text">
+        <button (click)="saveComment()" class="btn btn-success dugmePromena">Submit</button>
+        <p><strong>{{whatHappened}}</strong></p>
+      </div>
+      </div>
+    </div>
+    <div>
+    <div *ngIf="!currentArticle">
+      <br />
+      <p>Please click on a Article...</p>
+    </div>
+  </div>
+  <ng-template #editable>
+    <div *ngIf="currentArticle.id" class="edit-form">
+      <h4>Article</h4>
+      <form>
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            [(ngModel)]="currentArticle.title"
+            name="title"
+          />
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            id="description"
+            [(ngModel)]="currentArticle.description"
+            name="description"
+          />
+        </div>
+        <div class="form-group">
+          <label><strong>Status:</strong></label>
+          {{ currentArticle.published ? "Published" : "Pending" }}
+        </div>
+      </form>
+      <button
+        class="badge badge-primary mr-2"
+        *ngIf="currentArticle.published"
+        (click)="updatePublished(false)"
+      >
+        UnPublish
+      </button>
+      <button
+        *ngIf="!currentArticle.published"
+        class="badge badge-primary mr-2"
+        (click)="updatePublished(true)"
+      >
+        Publish
+      </button>
+      <button class="badge badge-danger mr-2" (click)="deleteArticle()">
+        Delete
+      </button>
+      <button
+        type="submit"
+        class="badge badge-success mb-2"
+        (click)="updateArticle()"
+      >
+        Update
+      </button>
+      <p>{{ message }}</p>
+    </div>
+    <div *ngIf="!currentArticle.id">
+      <br />
+      <p>Cannot access this Article...</p>
+    </div>
+  </ng-template>
